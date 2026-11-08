@@ -24,20 +24,38 @@ $estado = estado_hoy();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= htmlspecialchars($pageTitle) ?></title>
 <meta name="description" content="<?= htmlspecialchars($pageDesc) ?>">
+
 <meta name="theme-color" content="#14100d">
+<?php if (!empty($noindex)): ?><meta name="robots" content="noindex, nofollow"><?php endif; ?>
+
+<?php
+  $self  = basename($_SERVER['SCRIPT_NAME']);
+  $canon = base_abs() . '/' . ($self === 'index.php' ? '' : $self);
+?>
+<link rel="canonical" href="<?= htmlspecialchars($canon) ?>">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>/assets/img/favicon.svg">
+<?php if (has_img('logo.png')): ?>
+<link rel="apple-touch-icon" href="<?= BASE_URL ?>/assets/img/logo.png">
+<?php endif; ?>
 
 <!-- Open Graph (cómo se ve al compartir por WhatsApp/Facebook) -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="<?= SITE_NAME ?>">
 <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
 <meta property="og:description" content="<?= htmlspecialchars($pageDesc) ?>">
-<meta property="og:image" content="<?= has_img('hero.jpg') ? BASE_URL . '/assets/img/hero.jpg' : '' ?>">
+<meta property="og:url" content="<?= htmlspecialchars($canon) ?>">
 <meta property="og:locale" content="es_PE">
+<?php if (has_img('hero.jpg')): ?>
+<meta property="og:image" content="<?= base_abs() ?>/assets/img/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<?php endif; ?>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-
+<link rel="stylesheet" href="<?= asset('css/style.css') ?>">
 <!-- SEO local: datos estructurados -->
 <script type="application/ld+json">
 {

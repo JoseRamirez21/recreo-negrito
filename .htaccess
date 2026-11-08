@@ -1,0 +1,41 @@
+Options -Indexes
+DirectoryIndex index.php
+
+# Página 404 personalizada (si lo subes a la raíz de un dominio: /404.php)
+ErrorDocument 404 /recreo-negrito/404.php
+
+# /sitemap.xml y /robots.txt se generan solos
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /recreo-negrito/
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+  RewriteRule ^robots\.txt$  robots.php  [L]
+</IfModule>
+
+# Compresión
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+# Caché del navegador
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType text/javascript         "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 week"
+  ExpiresByType image/png               "access plus 1 week"
+  ExpiresByType image/webp              "access plus 1 week"
+  ExpiresByType image/svg+xml           "access plus 1 week"
+</IfModule>
+
+# Seguridad básica
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sql|md)$">
+  Require all denied
+</FilesMatch>

@@ -52,3 +52,16 @@ function estado_hoy(): array {
     }
     return ['abierto' => false, 'texto' => 'Cerrado por ahora · Abrimos a las ' . HORA_ABRE . ' am'];
 }
+
+/** URL absoluta del sitio (http://localhost/recreo-negrito o https://tudominio.com) */
+function base_abs(): string {
+    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+          || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+    return ($https ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL;
+}
+
+/** URL de un archivo de /assets con versión automática (evita caché vieja al editar) */
+function asset(string $rel): string {
+    $f = __DIR__ . '/../assets/' . $rel;
+    return BASE_URL . '/assets/' . $rel . (is_file($f) ? '?v=' . filemtime($f) : '');
+}
